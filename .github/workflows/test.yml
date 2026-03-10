@@ -1,0 +1,119 @@
+name: Validate 'setup-cocoapods'
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  replace-pre-installed:
+    name: replace pre-installed version
+    runs-on: macos-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+
+    - name: setup-cocoapods
+      uses: ./
+      with:
+        version: 1.15.2
+
+    - name: Validate version
+      run: pod --version | grep "1.15.2"
+
+  install-on-clean-machine:
+    name: install on clean machine
+    runs-on: macos-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+    
+    - name: Remove pre-installed version
+      run: gem uninstall cocoapods --all --executables --ignore-dependencies
+
+    - name: setup-cocoapods
+      uses: ./
+      with:
+        version: 1.14.3
+
+    - name: Validate version
+      run: pod --version | grep "1.14.3"
+
+  version-already-installed:
+    name: already installed version
+    runs-on: macos-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+    
+    - name: Remove pre-installed version
+      run: gem uninstall cocoapods --all --executables --ignore-dependencies
+
+    - name: Install needed version
+      run: gem install cocoapods -v 1.15.2
+
+    - name: setup-cocoapods
+      uses: ./
+      with:
+        version: 1.15.2
+
+    - name: Validate version
+      run: pod --version | grep "1.15.2"
+
+  version-latest:
+    name: install latest version
+    runs-on: macos-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+
+    - name: setup-cocoapods
+      uses: ./
+      with:
+        version: latest
+
+    - name: Validate version
+      run: pod --version
+
+  podfile-stable:
+    name: install stable version from podfile.lock
+    runs-on: macos-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+
+    - name: setup-cocoapods
+      uses: ./
+      with:
+        podfile-path: __tests__/podfile-example/Podfile.lock
+
+    - name: Validate version
+      run: pod --version | grep "1.14.3"
+
+    - name: setup-cocoapods
+      uses: ./
+      with:
+        podfile-path: __tests__/podfile-example/Podfile2.lock
+
+    - name: Validate version
+      run: pod --version | grep "1.15.2"
+
+  ubuntu-install:
+    name: install cocoapods on ubuntu
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+
+    - name: setup-ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.1'
+
+    - name: setup-cocoapods
+      uses: ./
+      with:
+        version: 1.15.2
+
+    - name: Validate version
+      run: pod --version | grep "1.15.2"

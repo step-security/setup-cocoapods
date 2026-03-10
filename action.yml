@@ -1,0 +1,16 @@
+name: 'Setup Cocoapods'
+author: 'step-security'
+description: 'Set up your GitHub Actions workflow with a specific version of Cocoapods'
+inputs:
+  version:
+    description: 'Version of Cocoapods to install'
+    required: false
+  podfile-path:
+    description: 'Path to Podfile.lock file to determine Cocoapods version'
+    required: false
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
+branding:
+  icon: 'code'
+  color: 'purple'
