@@ -1,0 +1,18 @@
+{
+   "schema_version": "1",
+   "onboarding_type": "copied",
+   "archived": false,
+   "maintained_action_name": "step-security/setup-cocoapods",
+   "upstream_full_repo_name": "maxim-lobanov/setup-cocoapods",
+   "action_type": "node",
+   "last_release": {
+     "tag_name": "v1.4.0",
+     "created_at": "2026-03-11T06:08:17Z",
+     "published_at": "2026-03-12T02:52:05Z"
+   },
+   "sync": {
+     "ignore_presets": [
+       "defaults_v1"
+     ]
+   }
+ }
